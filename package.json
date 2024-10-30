@@ -1,0 +1,15 @@
+{
+  "name": "aplicacao-em-node",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Tiago Cardoso de Vasconcelos",
+  "license": "ISC",
+  "description": "Teste de aplicação em Node.js do curso explorer da rocketseat.",
+  "dependencies": {
+    "express": "^4.21.1"
+  }
+}
