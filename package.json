@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon ./src/server.js"
   },
   "keywords": [],
   "author": "Tiago Cardoso de Vasconcelos",
@@ -11,5 +11,8 @@
   "description": "Teste de aplicação em Node.js do curso explorer da rocketseat.",
   "dependencies": {
     "express": "^4.21.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.7"
   }
 }
