@@ -34,14 +34,44 @@ class MovieNotesController {
     }
 
     async index(request, response) {
-        const { title, user_id } = request.query;
+        const { title, user_id, tags } = request.query;
 
-        const movieNotes = await knex("movie_notes")
+        let movieNotes;
+
+        if(tags) {
+            const filterTags = tags.split(',').map(tag => tag.trim());
+
+            movieNotes = await knex("movie_tags")
+            .select([
+                "movie_notes.id",
+                "movie_notes.title",
+                "movie_notes.user_id",
+            ])
+
+            .where("movie_notes.user_id", user_id)
+            .whereLike("movie_notes.title", `%${title}%`)
+            .whereIn("name", filterTags)
+            .innerJoin("movie_notes", "movie_notes.id", "movie_tags.notes_id")
+            .orderBy("movie_notes.title");
+
+        }else {
+            movieNotes = await knex("movie_notes")
             .where({ user_id })
             .whereLike("title", `%${title}%`)
             .orderBy("title");
+        }
 
-        return response.json(movieNotes);
+        const userTags = await knex("movie_tags").where({ user_id });
+        const movieNotesWithTags = movieNotes.map(movieNotes => {
+            const movieNotesTags = userTags.filter(tag => tag.notes_id === movieNotes.id);
+
+            return {
+                ...movieNotes,
+                tags: movieNotesTags
+            }
+        });
+
+        return response.json(movieNotesWithTags);
     }
 }
 
